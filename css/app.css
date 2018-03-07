@@ -137,11 +137,6 @@ h1 {
 	opacity: 0;
 }
 
-.overlay:target {
-	visibility: visible;
-	opacity: 1;
-}
-
 .popup {
 	margin: 70px auto;
 	padding: 20px;
@@ -182,8 +177,8 @@ h1 {
 }
 
 .show {
-	visibility: visible !important;
-	opacity: 100 !important;
+	visibility: visible;
+	opacity: 100;
 }
 
 #starRating li {

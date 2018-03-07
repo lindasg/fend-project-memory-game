@@ -15,7 +15,6 @@
  let counter = document.querySelector(".moves");
  const stars = document.querySelectorAll(".fa-star");
  let matchedCard = document.getElementsByClassName("match");
- let starsList = document.querySelectorAll(".stars li");
  let closeicon = document.querySelector(".close");
  let modal = document.getElementById("popup1");
  let openedCards = [];
@@ -80,13 +79,12 @@ function shuffle(array) {
      card = cards[i];
      card.addEventListener("click", displayCard);
      card.addEventListener("click", cardOpen);
-     card.addEventListener("click",congratulations);
  };
 
 function displayCard(){
-   this.classList.toggle("open");
-   this.classList.toggle("show");
-   this.classList.toggle("disabled");
+   this.classList.add("open");
+   this.classList.add("show");
+   this.classList.add("disabled");
 };
 
 function cardOpen() {
@@ -100,6 +98,7 @@ function cardOpen() {
             unmatched();
         }
     }
+    congratulations();
 };
 
 function matched(){
@@ -131,9 +130,6 @@ function disable(){
 function enable(){
     Array.prototype.filter.call(cards, function(card){
         card.classList.remove('disabled');
-        for(var i = 0; i < matchedCard.length; i++){
-            matchedCard[i].classList.add("disabled");
-        }
     });
 }
 
