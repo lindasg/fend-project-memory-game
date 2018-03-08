@@ -10,30 +10,42 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
- const deck = document.getElementsByClassName("deck");
+ const deck = document.getElementById("card-deck");
  let moves = 0;
  let counter = document.querySelector(".moves");
  const stars = document.querySelectorAll(".fa-star");
  let matchedCard = document.getElementsByClassName("match");
  let closeicon = document.querySelector(".close");
  let modal = document.getElementById("popup1");
- let openedCards = [];
+ let openedCards;
  let second = 0, minute = 0; hour = 0;
  let timer = document.querySelector(".timer");
  let interval;
+
+ // Shuffle function from http://stackoverflow.com/a/2450976
+ function shuffle(array) {
+     var currentIndex = array.length, temporaryValue, randomIndex, tempArray;
+
+     while (currentIndex > 0) {
+         randomIndex = Math.floor(Math.random() * currentIndex);
+         currentIndex -= 1;
+         temporaryValue = array[currentIndex];
+         array[currentIndex] = array[randomIndex];
+         array[randomIndex] = temporaryValue;
+     }
+
+     return array;
+ };
 
  document.body.onload = startGame();
 
  function startGame(){
      cards = shuffle(cards);
      for (var i = 0; i < cards.length; i++){
-         deck.innerHTML = "";
-         [].forEach(function(item) {
-             deck.appendChild(item);
-         });
-         cards[i].classList.remove("show", "open", "match", "disabled");
+         deck.appendChild(cards[i]);
+         cards[i].classList.remove("show", "open", "match", "disabled","unmatched");
      };
-
+    openedCards = [];
     moves = 0;
     counter.innerHTML = moves;
 
@@ -49,20 +61,6 @@
     clearInterval(interval);
 };
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-};
 
 
 /*
@@ -75,11 +73,7 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
- for (var i = 0; i < cards.length; i++){
-     card = cards[i];
-     card.addEventListener("click", displayCard);
-     card.addEventListener("click", cardOpen);
- };
+
 
 function displayCard(){
    this.classList.add("open");
@@ -130,6 +124,9 @@ function disable(){
 function enable(){
     Array.prototype.filter.call(cards, function(card){
         card.classList.remove('disabled');
+        for(var i = 0; i < matchedCard.length; i++){
+            matchedCard[i].classList.add("disabled");
+        }
     });
 }
 
@@ -210,3 +207,9 @@ function playAgain(){
     modal.classList.remove("show");
     startGame();
 }
+
+for (var i = 0; i < cards.length; i++){
+    card = cards[i];
+    card.addEventListener("click", displayCard);
+    card.addEventListener("click", cardOpen);
+};
